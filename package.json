@@ -4,6 +4,9 @@
   "description": "MERN shopping",
   "main": "server.js",
   "type": "module",
+  "engines": {
+    "node": "16.x"
+  },
   "scripts": {
     "start": "node backend/server",
     "server": "set NODE_ENV=development&& nodemon backend/server",
