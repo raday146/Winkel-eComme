@@ -1,0 +1,39 @@
+{
+  "name": "ecommerce-app",
+  "version": "1.0.0",
+  "description": "MERN shopping",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node backend/server",
+    "server": "set NODE_ENV=development&& nodemon backend/server",
+    "client": "npm start --prefix front",
+    "start:prod": "set NODE_ENV=production&& nodemon backend/server",
+    "dev": "set NODE_ENV=development&& concurrently \"npm run server\" \"npm run client\"",
+    "data:import": "node backend/seeder --import",
+    "data:destroy": "node backend/seeder --delete",
+    "heroku-postbuild":"NPM_CONFIG_PRODUCTION=false npm install --prefix front && npm run build --prefix"
+  },
+  "author": "ShlomoR",
+  "license": "ISC",
+  "dependencies": {
+    "@mui/material": "^5.0.5",
+    "bcrypt": "^5.0.1",
+    "bcryptjs": "^2.4.3",
+    "colors": "^1.4.0",
+    "crypto": "^1.0.1",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-async-handler": "^1.1.4",
+    "express-mongo-sanitize": "^2.1.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.13.11",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.3",
+    "util-promisify": "^3.0.0"
+  },
+  "devDependencies": {
+    "concurrently": "^6.3.0",
+    "nodemon": "^2.0.13"
+  }
+}
