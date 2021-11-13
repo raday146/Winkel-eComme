@@ -19,11 +19,10 @@ import {
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { PRODUCT_CREATE_REVIEW_RESET } from "../redux/types";
-import {Helmet} from 'react-helmet'
+import { Helmet } from "react-helmet";
 
 const ProductScreen = ({ history, match }) => {
-
-  const productId = match.params.id
+  const productId = match.params.id;
 
   const dispatch = useDispatch();
 
@@ -43,16 +42,14 @@ const ProductScreen = ({ history, match }) => {
     productCreateReview;
 
   useEffect(() => {
-
-    if(successCreateReview){
-      setRating(0)
-      setComment("")
-      dispatch({type:PRODUCT_CREATE_REVIEW_RESET})
+    if (successCreateReview) {
+      setRating(0);
+      setComment("");
+      dispatch({ type: PRODUCT_CREATE_REVIEW_RESET });
     }
 
     dispatch(listProductDetails(match.params.id));
-
-  }, [dispatch, match,successCreateReview,errorCreateReview]);
+  }, [dispatch, match, successCreateReview, errorCreateReview]);
 
   const [Quantity, setQuantity] = useState(1);
   const [rating, setRating] = useState(0);
@@ -63,18 +60,16 @@ const ProductScreen = ({ history, match }) => {
   };
 
   const createReviewHandler = (e) => {
-      e.preventDefault();
-      dispatch(createProductReview(productId,{rating,comment}))
-      dispatch({type:PRODUCT_CREATE_REVIEW_RESET})
-  }
+    e.preventDefault();
+    dispatch(createProductReview(productId, { rating, comment }));
+    dispatch({ type: PRODUCT_CREATE_REVIEW_RESET });
+  };
 
   return (
     <>
-       <Helmet>
-         <title>
-           {product.name}
-         </title>
-       </Helmet>
+      <Helmet>
+        <title>{product.name}</title>
+      </Helmet>
 
       {loading ? (
         <Loader />
@@ -178,32 +173,30 @@ const ProductScreen = ({ history, match }) => {
 
                 <ListGroup.Item>
                   <h2>Leave a review</h2>
-                  {errorCreateReview && <Message variant='danger' text={errorCreateReview}/>}
-                  {userInfo ? (
+                  {errorCreateReview && (
+                    <Message variant="danger" text={errorCreateReview} />
+                  )}
+                  {userInfo.user ? (
                     <Form onSubmit={createReviewHandler}>
-                    <Form.Label>Rating</Form.Label>
-                    <Form.Group controlId="rating">
-                       
-                          <Form.Control
+                      <Form.Label>Rating</Form.Label>
+                      <Form.Group controlId="rating">
+                        <Form.Control
                           required={true}
-                            as='select'
-                            value={rating}
-                            onChange={(e)=>setRating(e.target.value)}
-                          >
-                          <option value=''>Select..</option>
-                          <option value='1'>1 Star</option>
-                          <option value='2'>2 Star</option>
-                          <option value='3'>3 Star</option>
-                          <option value='4'>4 Star</option>
-                          <option value='5'>5 Star</option>
+                          as="select"
+                          value={rating}
+                          onChange={(e) => setRating(e.target.value)}
+                        >
+                          <option value="">Select..</option>
+                          <option value="1">1 Star</option>
+                          <option value="2">2 Star</option>
+                          <option value="3">3 Star</option>
+                          <option value="4">4 Star</option>
+                          <option value="5">5 Star</option>
                         </Form.Control>
                       </Form.Group>
 
                       <Form.Group controlId="comment" className="mt-3">
-                        <FloatingLabel
-                          controlId="comment"
-                          label="comment"
-                        >
+                        <FloatingLabel controlId="comment" label="comment">
                           <Form.Control
                             required
                             as="textarea"
@@ -213,11 +206,13 @@ const ProductScreen = ({ history, match }) => {
                           />
                         </FloatingLabel>
                       </Form.Group>
-                      <Button type="submit" variant='success' className='mt-2'>Submit</Button>
+                      <Button type="submit" variant="success" className="mt-2">
+                        Submit
+                      </Button>
                     </Form>
                   ) : (
                     <Button
-                    type='submit'
+                      type="submit"
                       variant="outline-info"
                       onClick={() => history.push("/login")}
                     >

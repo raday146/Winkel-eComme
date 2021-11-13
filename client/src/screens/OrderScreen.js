@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Button, Row, Col, ListGroup, Image, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,18 +6,25 @@ import Message from "../components/Message";
 import { Link } from "react-router-dom";
 import { PayPalButton } from "react-paypal-button-v2/lib/index";
 import axios from "axios";
-import { getOrderDetails,payOrder , deliverOrder } from "../redux/actions/orderActions";
-import {ORDER_PAY_RESET,CART_RESET,ORDER_DETAILS_RESET ,ORDER_DELIVER_RESET} from '../redux/types'
+import {
+  getOrderDetails,
+  payOrder,
+  deliverOrder,
+} from "../redux/actions/orderActions";
+import {
+  ORDER_PAY_RESET,
+  CART_RESET,
+  ORDER_DETAILS_RESET,
+  ORDER_DELIVER_RESET,
+} from "../redux/types";
 
-
-const OrderScreen = ({ match ,history }) => {
-
+const OrderScreen = ({ match, history }) => {
   const orderID = match.params.id;
   const dispatch = useDispatch();
 
-  const userInfo = useSelector(state=>state.userLogin.userInfo)
+  const userInfo = useSelector((state) => state.userLogin.userInfo);
 
-  const [sdkReady, setSdkReady] = useState(false)
+  const [sdkReady, setSdkReady] = useState(false);
 
   const orderDetails = useSelector((state) => state.orderDetails);
   const { order_details, loading, error } = orderDetails;
@@ -39,52 +45,49 @@ const OrderScreen = ({ match ,history }) => {
   }
 
   useEffect(() => {
-
-    if(!userInfo){
-      history.push('/login')
+    if (!userInfo) {
+      history.push("/login");
     }
 
     //Add dynamically paypal script
     const addPaypalScript = async () => {
       const { data: clientId } = await axios.get("/api/config/paypal");
       const script = document.createElement("script");
-      script.type = "text/javascript"
+      script.type = "text/javascript";
       script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`;
-      script.async = true
+      script.async = true;
       script.onload = () => {
-        setSdkReady(true)
+        setSdkReady(true);
       };
-      document.body.appendChild(script)
+      document.body.appendChild(script);
     };
 
-    if (!order_details || successPay || order_details._id !== orderID || successDeliver) {
-      dispatch({type:ORDER_PAY_RESET})
-      dispatch({type:ORDER_DELIVER_RESET})
+    if (
+      !order_details ||
+      successPay ||
+      order_details._id !== orderID ||
+      successDeliver
+    ) {
+      dispatch({ type: ORDER_PAY_RESET });
+      dispatch({ type: ORDER_DELIVER_RESET });
       dispatch(getOrderDetails(orderID));
-     
     } else if (!order_details.isPaid) {
       if (!window.paypal) {
-        addPaypalScript()
+        addPaypalScript();
       } else {
-        setSdkReady(true)
+        setSdkReady(true);
       }
     }
-    
-    
+  }, [dispatch, orderID, successPay, successDeliver, order_details]);
 
-  }, [dispatch, orderID, successPay,successDeliver, order_details]);
+  const successPaymentHandler = (paymentResult) => {
+    dispatch(payOrder(orderID, paymentResult));
+    dispatch({ type: CART_RESET });
+  };
 
-
-  const successPaymentHandler = (paymentResult) =>{
-      dispatch(payOrder(orderID,paymentResult))
-      dispatch({type:CART_RESET})  
-  }
-
-  const deliverHandler = () =>{
-     dispatch(deliverOrder(orderID))
-     
-  }
-
+  const deliverHandler = () => {
+    dispatch(deliverOrder(orderID));
+  };
 
   return loading ? (
     <Loader />
@@ -109,7 +112,9 @@ const OrderScreen = ({ match ,history }) => {
               {order_details.isDelivered ? (
                 <Message
                   variant="success"
-                  text={`Delivered on ${order_details.deliveredAt.substring(0,16).replace("T0"," Time ")}`}
+                  text={`Delivered on ${order_details.deliveredAt
+                    .substring(0, 16)
+                    .replace("T0", " Time ")}`}
                 />
               ) : (
                 <Message variant="danger" text="Not Delivered" />
@@ -138,7 +143,9 @@ const OrderScreen = ({ match ,history }) => {
               {order_details.isPaid ? (
                 <Message
                   variant="success"
-                  text={`Paid on ${order_details.paidAt.substring(0,16).replace("T0"," Time ")}`}
+                  text={`Paid on ${order_details.paidAt
+                    .substring(0, 16)
+                    .replace("T0", " Time ")}`}
                 />
               ) : (
                 <Message variant="danger" text="Not Paid" />
@@ -203,33 +210,41 @@ const OrderScreen = ({ match ,history }) => {
                 <Col>${order_details.totalPrice}</Col>
               </Row>
             </ListGroup.Item>
-           
-          
+
             {!order_details.isPaid && (
               <ListGroup.Item>
-              {loadingPay && <Loader />}
-              {!sdkReady ? <Loader/> : (<PayPalButton amount={order_details.totalPrice} onSuccess={successPaymentHandler}/>)}
-              
+                {loadingPay && <Loader />}
+                {!sdkReady ? (
+                  <Loader />
+                ) : (
+                  <PayPalButton
+                    amount={order_details.totalPrice}
+                    onSuccess={successPaymentHandler}
+                  />
+                )}
               </ListGroup.Item>
             )}
-          
-          {userInfo && userInfo.isAdmin && order_details.isPaid && !order_details.isDelivered &&
-          (<ListGroup>
-          
-            {loadingDeliver && <Loader/>}
 
-            <ListGroup.Item>
-            <Button style={{width:'100%'}}
-                type="button"
-                variant='outline-success'
-                 className='btn btn-block'
-                onClick={deliverHandler}
-              ><i className="fas fa-truck"></i> Delivered</Button>
-            </ListGroup.Item>
-            
-          
-            
-          </ListGroup>)}
+            {userInfo.user &&
+              userInfo.user.isAdmin &&
+              order_details.isPaid &&
+              !order_details.isDelivered && (
+                <ListGroup>
+                  {loadingDeliver && <Loader />}
+
+                  <ListGroup.Item>
+                    <Button
+                      style={{ width: "100%" }}
+                      type="button"
+                      variant="outline-success"
+                      className="btn btn-block"
+                      onClick={deliverHandler}
+                    >
+                      <i className="fas fa-truck"></i> Delivered
+                    </Button>
+                  </ListGroup.Item>
+                </ListGroup>
+              )}
           </ListGroup>
         </Col>
       </Row>

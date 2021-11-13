@@ -15,9 +15,8 @@ import { listProducts, deleteProduct } from "../redux/actions/productActions";
 import { LinkContainer } from "react-router-bootstrap";
 import Paginate from "../components/Paginate";
 
-const ProductListScreen = ({ history , match }) => {
-
-  const pageNumber = match.params.pageNumber || 1
+const ProductListScreen = ({ history, match }) => {
+  const pageNumber = match.params.pageNumber || 1;
 
   const dispatch = useDispatch();
 
@@ -27,7 +26,13 @@ const ProductListScreen = ({ history , match }) => {
 
   const productListReducer = useSelector((state) => state.productListReducer);
 
-  const { loading, error, products: productList , page , pages } = productListReducer;
+  const {
+    loading,
+    error,
+    products: productList,
+    page,
+    pages,
+  } = productListReducer;
 
   const [products, setProducts] = useState([]);
 
@@ -36,12 +41,12 @@ const ProductListScreen = ({ history , match }) => {
   const { success: successDelete, error: errorDelete } = productDelete;
 
   useEffect(() => {
-    if (userInfo && userInfo.isAdmin) {
-      dispatch(listProducts('',pageNumber));
+    if (userInfo.user && userInfo.user.isAdmin) {
+      dispatch(listProducts("", pageNumber));
     } else {
       history.push("/login");
     }
-  }, [dispatch, history, userInfo, successDelete,pageNumber]);
+  }, [dispatch, history, userInfo, successDelete, pageNumber]);
 
   useEffect(() => {
     setProducts(productList);
@@ -66,24 +71,22 @@ const ProductListScreen = ({ history , match }) => {
   return (
     <>
       <h1>Products</h1>
-      <Row className="d-flex justify-content-center mb-4" md='auto'>
-        
+      <Row className="d-flex justify-content-center mb-4" md="auto">
         <Col>
-          <InputGroup >
+          <InputGroup>
             <FormControl
               placeholder="Search product"
               onChange={(e) => filterProductsHandler(e.target.value)}
             />
           </InputGroup>
         </Col>
-        <Col className="text-right" >
+        <Col className="text-right">
           <LinkContainer to={`/admin/product/newproduct`}>
-            <Button >
+            <Button>
               <i className="fas fa-plus"></i> Create Product
             </Button>
           </LinkContainer>
         </Col>
-       
       </Row>
 
       {loading ? (
@@ -94,61 +97,63 @@ const ProductListScreen = ({ history , match }) => {
         <Message variant="danger" text={errorDelete} />
       ) : (
         <>
-        <Table striped bordered hover responsive className="table-sm">
-          <thead>
-            <tr>
-              <th>Id</th>
-              <th>Image</th>
-              <th>Name</th>
-              <th>Brand</th>
-              <th>Category</th>
-              <th>Price</th>
-              <th>In Stock</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {products &&
-              products.map((product) => (
-                <tr key={product._id}>
-                  <td>{product._id}</td>
-                  <td>
-                    <Image
-                      src={product.image}
-                      style={{ width: "200px", height: "150px" }}
-                      thumbnail
-                      alt="product-img"
-                    />
-                  </td>
-                  <td>{product.name}</td>
-                  <td>{product.brand}</td>
-                  <td>{product.category}</td>
-                  <td>${product.price}</td>
-                  <td>{product.countInStock}</td>
-                  <td>
-                    <Col style={{ display: "flex" }}>
-                      <LinkContainer to={`/admin/product/${product._id}/edit`}>
-                        <Button className="btn-sm" variant="light">
-                          <i className="fas fa-edit"></i>
+          <Table striped bordered hover responsive className="table-sm">
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Brand</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>In Stock</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {products &&
+                products.map((product) => (
+                  <tr key={product._id}>
+                    <td>{product._id}</td>
+                    <td>
+                      <Image
+                        src={product.image}
+                        style={{ width: "200px", height: "150px" }}
+                        thumbnail
+                        alt="product-img"
+                      />
+                    </td>
+                    <td>{product.name}</td>
+                    <td>{product.brand}</td>
+                    <td>{product.category}</td>
+                    <td>${product.price}</td>
+                    <td>{product.countInStock}</td>
+                    <td>
+                      <Col style={{ display: "flex" }}>
+                        <LinkContainer
+                          to={`/admin/product/${product._id}/edit`}
+                        >
+                          <Button className="btn-sm" variant="light">
+                            <i className="fas fa-edit"></i>
+                          </Button>
+                        </LinkContainer>
+                        <Button
+                          className="btn-sm"
+                          variant="danger"
+                          style={{ marginLeft: "10px" }}
+                          onClick={() => deleteProductHandler(product._id)}
+                        >
+                          <i className="fas fa-trash"></i>
                         </Button>
-                      </LinkContainer>
-                      <Button
-                        className="btn-sm"
-                        variant="danger"
-                        style={{ marginLeft: "10px" }}
-                        onClick={() => deleteProductHandler(product._id)}
-                      >
-                        <i className="fas fa-trash"></i>
-                      </Button>
-                    </Col>
-                  </td>
-                </tr>
-              ))}
-          </tbody>
-        </Table>
-        <Row className="d-grid justify-content-center" md="auto">   
-         <Paginate pages={pages} page={page} isAdmin={true} />
-        </Row>  
+                      </Col>
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </Table>
+          <Row className="d-grid justify-content-center" md="auto">
+            <Paginate pages={pages} page={page} isAdmin={true} />
+          </Row>
         </>
       )}
     </>

@@ -224,10 +224,10 @@ export const getUsersList = () => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(`/api/users`, config);
-
+    console.log(data);
     dispatch({
       type: USER_LIST_SUCCESS,
-      payload: data.users,
+      payload: data,
     });
   } catch (error) {
     dispatch({

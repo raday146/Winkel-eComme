@@ -86,6 +86,7 @@ const login = () =>
         const er = new AppError("Incorrect email or password", 401);
         res.status(er.statusCode).json({ message: er.message });
       }
+      console.log(user);
       createSendToken(user, 200, res);
     } catch (error) {
       res.status(401).json({

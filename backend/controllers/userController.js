@@ -89,7 +89,7 @@ const updateUserProfile = () =>
 const getUsers = asyncHandler(async (req, res, next) => {
   try {
     const users = await User.find({}); //.populate("user", "name");
-
+    console.log(users);
     res.status(200).json(users);
   } catch (error) {
     res.status(404).json({

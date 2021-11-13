@@ -4,15 +4,14 @@ import { Form, Button, Row, Col, FormControl } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { register,login } from "../redux/actions/userActions";
+import { register, login } from "../redux/actions/userActions";
 import FormContainer from "../components/FormContainer";
 
 const RegisterScreen = ({ location, history }) => {
-
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [message,setMessage] = useState(null);
+  const [message, setMessage] = useState(null);
 
   const dispatch = useDispatch();
 
@@ -20,34 +19,26 @@ const RegisterScreen = ({ location, history }) => {
 
   const { loading, error, userInfo } = userRegister;
 
-  const redirect = location.search ? location.search.split('=')[1] : '/'
-    useEffect(() =>{
-        if(userInfo){
-            history.push(redirect)
-        }
-    },[history,userInfo,redirect])
+  const redirect = location.search ? location.search.split("=")[1] : "/";
+  useEffect(() => {
+    if (userInfo.user) {
+      history.push(redirect);
+    }
+  }, [history, userInfo, redirect]);
 
   const submitHandler = (e) => {
     e.preventDefault();
-    
 
-    if(name===''){
-        
-        setMessage('name field must be filled')
-    }else if(password===''){
-        setMessage('password field must be filled')
-   
+    if (name === "") {
+      setMessage("name field must be filled");
+    } else if (password === "") {
+      setMessage("password field must be filled");
+    } else if (email === "") {
+      setMessage("email field must be filled");
+    } else {
+      dispatch(register(name, email, password));
     }
-    else if(email===''){
-      setMessage('email field must be filled')
-    
-    }
-    else{
-        dispatch(register(name,email,password))
-    }
-  
-      
-};
+  };
 
   return (
     <FormContainer>
@@ -56,12 +47,10 @@ const RegisterScreen = ({ location, history }) => {
       {error && <Message variant="danger" text={error}></Message>}
       {loading && <Loader />}
 
-    
       <Form onSubmit={submitHandler}>
         <Form.Group controlId="name">
           <Form.Label>Name</Form.Label>
 
-     
           <Form.Control
             type="name"
             placeholder="Enter name"
