@@ -26,10 +26,8 @@ import {
   PRODUCT_TOP_RESET,
 } from "../types";
 
-
-
 export const productListReducer = (
-  state = { products: [], loading: null, error: null ,sort:''},
+  state = { products: [], loading: null, error: null, sort: "" },
   action
 ) => {
   switch (action.type) {
@@ -37,11 +35,10 @@ export const productListReducer = (
       return {
         loading: true,
         products: [],
-        error: null,
       };
     case PRODUCT_LIST_SUCCESS:
       return {
-        sort:'',
+        sort: "",
         loading: false,
         products: action.payload.products,
         pages: action.payload.pages,
@@ -50,7 +47,7 @@ export const productListReducer = (
 
     case PRODUCT_LIST_FAIL:
       return { loading: false, error: action.payload };
-    
+
     case "SORT_ASC":
       const sortAsc = action.payload.products.sort((a, b) =>
         a.price > b.price ? 1 : -1

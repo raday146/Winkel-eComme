@@ -62,9 +62,7 @@ const getOrderById = asyncHandler(async (req, res, next) => {
       "name email"
     );
     if (order) {
-      res.status(200).json({
-        order,
-      });
+      res.status(200).json(order);
     } else {
       res.status(404).json({
         message: "No order ware found!",
@@ -97,9 +95,7 @@ const updateOrderToPaid = asyncHandler(async (req, res, next) => {
       };
       const updatedOrder = await order.save();
 
-      res.status(200).json({
-        updatedOrder,
-      });
+      res.status(200).json(updatedOrder);
     } else {
       res.status(404).json({
         message: "No order ware found!",
@@ -126,9 +122,7 @@ const updateOrderToDelivered = asyncHandler(async (req, res, next) => {
       order.deliverdAt = Date.now();
 
       const updatedOrder = await order.save();
-      res.status(200).json({
-        updatedOrder,
-      });
+      res.status(200).json(updatedOrder);
     } else {
       res.status(404).json({
         message: "No order ware found!",
@@ -149,9 +143,7 @@ const updateOrderToDelivered = asyncHandler(async (req, res, next) => {
 const getMyOrders = asyncHandler(async (req, res, next) => {
   try {
     const orders = await Order.find({ user: req.user.id });
-    res.status(201).json({
-      orders,
-    });
+    res.status(201).json(orders);
   } catch (error) {
     res.status(400).json({
       message: error,
@@ -167,9 +159,7 @@ const getMyOrders = asyncHandler(async (req, res, next) => {
 const getAllOrders = asyncHandler(async (req, res, next) => {
   try {
     const orders = await Order.find({}).populate("user", "id name");
-    res.status(201).json({
-      orders,
-    });
+    res.status(201).json(orders);
   } catch (error) {
     res.status(400).json({
       message: error,

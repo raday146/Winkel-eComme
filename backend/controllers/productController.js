@@ -30,7 +30,6 @@ const getAll = () =>
 
     const count = await Product.countDocuments({ ...features.regexString() });
     const products = await features.query;
-
     // SEND RESPONSE
     res.status(200).json({
       page,
@@ -42,11 +41,14 @@ const getAll = () =>
 const getOne = () =>
   asyncHandler(async (req, res) => {
     try {
-      const doc = await Product.findById(req.params.id);
-      res.status(200).json({
-        status: "success",
-        data: doc,
-      });
+      const product = await Product.findById(req.params.id);
+      if (product) {
+        res.status(200).json(product);
+      } else {
+        res.status(401).json({
+          message: "Product not found",
+        });
+      }
     } catch (error) {
       res.status(404).json({
         message: "No document found with that ID",
@@ -128,9 +130,7 @@ const updateProduct = () =>
         }
       );
 
-      res.status(201).json({
-        updatedProduct,
-      });
+      res.status(201).json(updatedProduct);
     } catch (error) {
       res.status(404).json({
         message: "Document not found",
@@ -200,8 +200,13 @@ const getTopProduct = () =>
         .pagination();
 
       const products = await features.query;
-
-      res.status(200).json(products);
+      if (products) {
+        res.status(200).json(products);
+      } else {
+        res.status(401).json({
+          message: "Products not found",
+        });
+      }
     } catch (error) {
       res.status(404).json({
         message: "Documnets not found",

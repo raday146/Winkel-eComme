@@ -90,9 +90,7 @@ const getUsers = asyncHandler(async (req, res, next) => {
   try {
     const users = await User.find({}); //.populate("user", "name");
 
-    res.status(200).json({
-      users,
-    });
+    res.status(200).json(users);
   } catch (error) {
     res.status(404).json({
       message: "No users ware founed",
