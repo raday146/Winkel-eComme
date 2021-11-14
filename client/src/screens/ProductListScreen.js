@@ -16,7 +16,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import Paginate from "../components/Paginate";
 
 const ProductListScreen = ({ history, match }) => {
-  const pageNumber = match.params.pageNumber || 1;
+  const pageNumber = match.params.page || 1;
 
   const dispatch = useDispatch();
 

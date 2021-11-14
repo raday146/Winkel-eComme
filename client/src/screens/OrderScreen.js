@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Row, Col, ListGroup, Image, Card } from "react-bootstrap";
+import { Button, Row, Col, ListGroup, Image } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
@@ -14,7 +14,6 @@ import {
 import {
   ORDER_PAY_RESET,
   CART_RESET,
-  ORDER_DETAILS_RESET,
   ORDER_DELIVER_RESET,
 } from "../redux/types";
 
@@ -45,7 +44,7 @@ const OrderScreen = ({ match, history }) => {
   }
 
   useEffect(() => {
-    if (!userInfo) {
+    if (!userInfo.user) {
       history.push("/login");
     }
 
@@ -78,7 +77,15 @@ const OrderScreen = ({ match, history }) => {
         setSdkReady(true);
       }
     }
-  }, [dispatch, orderID, successPay, successDeliver, order_details]);
+  }, [
+    dispatch,
+    orderID,
+    successPay,
+    successDeliver,
+    order_details,
+    history,
+    userInfo,
+  ]);
 
   const successPaymentHandler = (paymentResult) => {
     dispatch(payOrder(orderID, paymentResult));
@@ -109,10 +116,10 @@ const OrderScreen = ({ match, history }) => {
                 {order_details.shippingAddress.postalCode},
                 {order_details.shippingAddress.country}
               </p>
-              {order_details.isDelivered ? (
+              {order_details.isDeliverd ? (
                 <Message
                   variant="success"
-                  text={`Delivered on ${order_details.deliveredAt
+                  text={`Delivered on ${order_details.deliverdAt
                     .substring(0, 16)
                     .replace("T0", " Time ")}`}
                 />
@@ -228,7 +235,7 @@ const OrderScreen = ({ match, history }) => {
             {userInfo.user &&
               userInfo.user.isAdmin &&
               order_details.isPaid &&
-              !order_details.isDelivered && (
+              !order_details.isDeliverd && (
                 <ListGroup>
                   {loadingDeliver && <Loader />}
 

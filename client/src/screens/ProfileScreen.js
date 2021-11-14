@@ -37,28 +37,27 @@ const ProfileScreen = ({ history }) => {
   const { loading: loadingOrders, error: errorOrders, orders } = myOrders;
 
   useEffect(() => {
+    dispatch({ type: USER_UPDATE_PROFILE_RESET });
     dispatch(getMyOrdersDetails());
     if (!userInfo.user) {
       history.push("/login");
     } else {
-      setName(userInfo.user.name);
-      setEmail(userInfo.user.email);
-
-      if (success) {
-        dispatch({ type: USER_UPDATE_PROFILE_RESET });
+      if (!user || !user.name) {
         dispatch(getUserDetails("profile"));
-        dispatch(getMyOrdersDetails());
+      } else {
+        setName(user.name);
+        setEmail(user.email);
+      }
+      if (success) {
+        //dispatch({ type: USER_UPDATE_PROFILE_RESET });
+        //dispatch(getMyOrdersDetails());
       }
     }
-  }, [dispatch, history, user, userInfo, success]);
+  }, [dispatch, history, userInfo, success, user]);
 
   const submitHandler = (e) => {
     e.preventDefault();
-
-    //Dispatch update user details
-    dispatch(
-      updateUserProfile({ id: userInfo.user._id, name, email, password })
-    );
+    dispatch(updateUserProfile({ id: user._id, name, email, password }));
   };
 
   return (

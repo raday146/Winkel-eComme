@@ -3,8 +3,9 @@ import { Navbar, Nav, Container, NavDropdown, Badge } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../redux/actions/userActions";
-import { useHistory } from "react-router-dom";
+import { useHistory, Route } from "react-router-dom";
 import { CART_RESET } from "../redux/types";
+import SearchBox from "../components/SearchBox";
 
 const Header = () => {
   const history = useHistory();
@@ -35,6 +36,8 @@ const Header = () => {
 
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
+            <Route render={({ history }) => <SearchBox history={history} />} />
+
             <Nav className="ms-auto">
               <LinkContainer to="/cart">
                 <Nav.Link>
@@ -59,19 +62,19 @@ const Header = () => {
 
                   {userInfo.user && userInfo.user.isAdmin && (
                     <>
-                      <LinkContainer to="/admin/users">
+                      <LinkContainer to="/admin/userslist">
                         <NavDropdown.Item>
                           <i class="fas fa-users"></i> Users
                         </NavDropdown.Item>
                       </LinkContainer>
 
-                      <LinkContainer to="/admin/orders">
+                      <LinkContainer to="/admin/orderlist">
                         <NavDropdown.Item>
                           <i class="fas fa-box"></i> Orders
                         </NavDropdown.Item>
                       </LinkContainer>
 
-                      <LinkContainer to="/admin/products">
+                      <LinkContainer to="/admin/productlist">
                         <NavDropdown.Item>
                           <i class="fas fa-store"></i> Products
                         </NavDropdown.Item>

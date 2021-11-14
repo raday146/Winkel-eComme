@@ -23,6 +23,7 @@ import {
   PRODUCT_TOP_REQUEST,
   PRODUCT_TOP_SUCCESS,
   PRODUCT_TOP_FAIL,
+  PRODUCT_DETAILS_RESET,
   PRODUCT_TOP_RESET,
 } from "../types";
 
@@ -81,23 +82,25 @@ export const productListReducer = (
 
 export const productDetailsReducer = (state, action) => {
   state = {
-    product: { reviews: [] },
     loading: null,
+    product: { reviews: [] },
+
     error: null,
   };
   switch (action.type) {
     case PRODUCT_DETAILS_REQUEST:
       return {
         loading: true,
-        product: {},
+        product: { reviews: [] },
         error: null,
       };
     case PRODUCT_DETAILS_SUCCESS:
-      return { loading: false, product: action.payload };
+      return { ...state, loading: false, product: action.payload };
 
     case PRODUCT_DETAILS_FAIL:
       return { loading: false, error: action.payload };
-
+    case PRODUCT_DETAILS_RESET:
+      return { product: { reviews: [] } };
     default:
       return state;
   }
@@ -176,10 +179,7 @@ export const productCreateReviewReducer = (state = {}, action) => {
   }
 };
 
-export const productTopRatedReducer = (
-  state = { products: [], loading: null, error: null },
-  action
-) => {
+export const productTopRatedReducer = (state = { products: [] }, action) => {
   switch (action.type) {
     case PRODUCT_TOP_REQUEST:
       return {

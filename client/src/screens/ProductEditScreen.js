@@ -8,7 +8,7 @@ import {
   listProductDetails,
   editProduct,
 } from "../redux/actions/productActions";
-import { PRODUCT_UPDATE_RESET } from "../redux/types";
+import { PRODUCT_UPDATE_RESET, PRODUCT_DETAILS_RESET } from "../redux/types";
 import FormContainer from "../components/FormContainer";
 
 const ProductEditScreen = ({ match, history }) => {
@@ -28,6 +28,7 @@ const ProductEditScreen = ({ match, history }) => {
   const productDetails = useSelector((state) => state.productDetails);
 
   const { loading, error, product } = productDetails;
+  console.log("31. ", product);
 
   const userLogin = useSelector((state) => state.userLogin);
 
@@ -46,30 +47,34 @@ const ProductEditScreen = ({ match, history }) => {
     if (!userInfo.user.isAdmin) {
       history.push("/");
     }
-
     //checks if update product success
     if (successUpdate) {
       setMessage("Product updated successfully");
       setTimeout(() => {
         dispatch({ type: PRODUCT_UPDATE_RESET });
-        history.push("/admin/products");
+        dispatch({ type: PRODUCT_DETAILS_RESET });
+
+        history.push("/admin/productlist");
       }, 1500);
     } else {
-      if (!product || product._id !== productID) {
+      if (!product.name || product._id !== productID) {
+        console.log(product);
         dispatch(listProductDetails(productID));
+      } else {
+        setName(product.name);
+        setPrice(product.price);
+        setCountInStock(product.countInStock);
+        setImage(product.image);
+        setBrand(product.brand);
+        setDescription(product.description);
+        setCategory(product.category);
       }
-      setName(product.name);
-      setPrice(product.price);
-      setCountInStock(product.countInStock);
-      setImage(product.image);
-      setBrand(product.brand);
-      setDescription(product.description);
-      setCategory(product.category);
     }
-  }, [dispatch, productID, history, successUpdate, error, errorUpdate]);
+  }, [dispatch, productID, history, successUpdate, userInfo, product]);
 
   const submitHandler = (e) => {
     e.preventDefault();
+    console.log("ddddd");
     dispatch(
       editProduct({
         _id: productID,
@@ -86,7 +91,7 @@ const ProductEditScreen = ({ match, history }) => {
 
   return (
     <>
-      <Link to="/admin/products" className="btn btn-light my-3">
+      <Link to="/admin/productlist" className="btn btn-light my-3">
         Go Back
       </Link>
 

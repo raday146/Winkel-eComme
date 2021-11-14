@@ -159,6 +159,7 @@ const getMyOrders = asyncHandler(async (req, res, next) => {
 const getAllOrders = asyncHandler(async (req, res, next) => {
   try {
     const orders = await Order.find({}).populate("user", "id name");
+    console.log(orders);
     res.status(201).json(orders);
   } catch (error) {
     res.status(400).json({

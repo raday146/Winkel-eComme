@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Carousel, Image } from "react-bootstrap";
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "./Loader";
 import Message from "./Message";
@@ -14,7 +14,7 @@ const CarouselProducts = () => {
   const { error, loading, products } = topRatedProducts;
 
   useEffect(() => {
-      dispatch(listTopRatedProducts())
+    dispatch(listTopRatedProducts());
   }, [dispatch]);
 
   return (
@@ -24,23 +24,22 @@ const CarouselProducts = () => {
       ) : error ? (
         <Message variant="danger" text={error} />
       ) : (
-        products &&
-        <Carousel fade variant="dark">
-        
-        {products.map((product) => (
-          
-            <Carousel.Item key={product._id} pause='hover' interval={2000} >
-           
-              <Link to={`/product/${product._id}`}>
-             
-              <Image className="d-block w-100" src={product.image} alt={product.name} fluid />
-              </Link>
-             
-            
-            </Carousel.Item>
-          
-        ))}
-        </Carousel>
+        products && (
+          <Carousel fade variant="dark">
+            {products.map((product) => (
+              <Carousel.Item key={product._id} pause="hover" interval={2000}>
+                <Link to={`/product/${product._id}`}>
+                  <Image
+                    className="d-block w-100"
+                    src={product.image}
+                    alt={product.name}
+                    fluid
+                  />
+                </Link>
+              </Carousel.Item>
+            ))}
+          </Carousel>
+        )
       )}
     </>
   );

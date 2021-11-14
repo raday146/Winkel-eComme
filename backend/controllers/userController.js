@@ -66,10 +66,7 @@ const updateUserProfile = () =>
         }
       );
       res.status(200).json({
-        status: "success",
-        data: {
-          user: updatedUser,
-        },
+        user: updatedUser,
       });
     } catch (error) {
       res.status(404).json({

@@ -4,14 +4,13 @@ import {
   Button,
   Row,
   Col,
-  Image,
   InputGroup,
   FormControl,
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { orderList, getOrderDetails } from "../redux/actions/orderActions";
+import { orderList } from "../redux/actions/orderActions";
 import { LinkContainer } from "react-router-bootstrap";
 
 const OrdersListScreen = ({ history }) => {

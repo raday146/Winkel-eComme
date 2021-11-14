@@ -13,7 +13,6 @@ import {
   USER_UPDATE_PROFILE_REQUEST,
   USER_UPDATE_PROFILE_SUCCESS,
   USER_UPDATE_PROFILE_FAIL,
-  USER_UPDATE_PROFILE_RESET,
   ORDER_MYORDERS_RESET,
   USER_LIST_REQUEST,
   USER_LIST_SUCCESS,
@@ -25,7 +24,9 @@ import {
   USER_UPDATE_REQUEST,
   USER_UPDATE_SUCCESS,
   USER_UPDATE_FAIL,
-  USER_UPDATE_RESET,
+  ORDER_DETAILS_RESET,
+  ORDER_LIST_RESET,
+  PRODUCT_DETAILS_RESET,
 } from "../types";
 import axios from "axios";
 
@@ -80,6 +81,9 @@ export const logOut = () => async (dispatch) => {
     dispatch({
       type: USER_LIST_RESET,
     });
+    dispatch({ type: ORDER_DETAILS_RESET });
+    dispatch({ type: ORDER_LIST_RESET });
+    dispatch({ PRODUCT_DETAILS_RESET });
   } catch (err) {
     console.error(err);
   }
@@ -141,20 +145,10 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(`/api/users/${id}`, config);
-
-    if (data) {
-      if (data.user) {
-        dispatch({
-          type: USER_DETAILS_SUCCESS,
-          payload: data.user,
-        });
-      } else {
-        dispatch({
-          type: USER_DETAILS_SUCCESS,
-          payload: data,
-        });
-      }
-    }
+    dispatch({
+      type: USER_DETAILS_SUCCESS,
+      payload: data,
+    });
   } catch (error) {
     dispatch({
       type: USER_DETAILS_FAIL,
@@ -184,14 +178,9 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.put(`/api/users/profile`, user, config);
-
+    console.log(data);
     dispatch({
       type: USER_UPDATE_PROFILE_SUCCESS,
-      payload: data,
-    });
-
-    dispatch({
-      type: USER_LOGIN_SUCCESS,
       payload: data,
     });
 

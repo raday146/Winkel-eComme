@@ -8,16 +8,14 @@ import { listProducts } from "../redux/actions/productActions";
 import { useDispatch, useSelector } from "react-redux";
 import { Helmet } from "react-helmet";
 import OffCanvas from "../components/OffCanvas";
-import { Route } from "react-router-dom";
-import SearchBox from "../components/SearchBox";
-
 import { openFilter } from "../redux/actions/filterActions";
+import CarouselProducts from "../components/CarouselProducts";
 // import { sortProductsAsc, sortProductsDesc } from "../redux/actions/productActions";
 
 const HomeScreen = ({ match, history }) => {
   const keywordSearch = match.params.keyword;
   const pageNumber = match.params.page || 1;
-
+  console.log(keywordSearch);
   const dispatch = useDispatch();
   const productListReducer = useSelector((state) => state.productListReducer);
   const {
@@ -38,10 +36,10 @@ const HomeScreen = ({ match, history }) => {
     dispatch(listProducts(keywordSearch, pageNumber, sort));
   }, [dispatch, keywordSearch, pageNumber, sort]);
 
-  const pageSize = 6;
+  //const pageSize = 6;
 
-  const indexOfLastProduct = pageNumber * pageSize;
-  const indexOfFirstProduct = indexOfLastProduct - pageSize;
+  //const indexOfLastProduct = pageNumber * pageSize;
+  //const indexOfFirstProduct = indexOfLastProduct - pageSize;
   // let products = allProducts.slice(indexOfFirstProduct, indexOfLastProduct);
 
   return (
@@ -49,6 +47,7 @@ const HomeScreen = ({ match, history }) => {
       <Helmet>
         <title>Winkel | Home</title>
       </Helmet>
+      {!keywordSearch && <CarouselProducts />}
 
       {loading ? (
         <Loader />
@@ -64,11 +63,7 @@ const HomeScreen = ({ match, history }) => {
                 xs={1}
                 me="auto"
                 className="d-flex justify-content-center"
-              >
-                <Route
-                  render={({ history }) => <SearchBox history={history} />}
-                />
-              </Row>
+              ></Row>
 
               <Col className="d-grid gap-1 mt-3" lg={1} md={2} xs={4}>
                 <Form.Select
