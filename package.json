@@ -15,12 +15,12 @@
     "dev": "set NODE_ENV=development&& concurrently \"npm run server\" \"npm run frontend\"",
     "data:import": "node backend/seeder --import",
     "data:destroy": "node backend/seeder --delete",
-    "heroku-postbuild":"set NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+    "heroku-postbuild": "set NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "author": "ShlomoR",
   "license": "ISC",
   "dependencies": {
-    "@mui/material": "^5.0.5",
+    "@mui/material": "^5.1.0",
     "bcrypt": "^5.0.1",
     "bcryptjs": "^2.4.3",
     "colors": "^1.4.0",

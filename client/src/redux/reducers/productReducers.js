@@ -24,7 +24,7 @@ import {
   PRODUCT_TOP_SUCCESS,
   PRODUCT_TOP_FAIL,
   PRODUCT_DETAILS_RESET,
-  PRODUCT_TOP_RESET,
+  //PRODUCT_TOP_RESET,
 } from "../types";
 
 export const productListReducer = (

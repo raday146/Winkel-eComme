@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, Button, Form } from "react-bootstrap";
+import { Row, Col, Button } from "react-bootstrap";
 import Product from "../components/Product";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
@@ -15,7 +15,7 @@ import CarouselProducts from "../components/CarouselProducts";
 const HomeScreen = ({ match, history }) => {
   const keywordSearch = match.params.keyword;
   const pageNumber = match.params.page || 1;
-  console.log(keywordSearch);
+
   const dispatch = useDispatch();
   const productListReducer = useSelector((state) => state.productListReducer);
   const {
@@ -58,31 +58,8 @@ const HomeScreen = ({ match, history }) => {
         <>
           {!keywordSearch && (
             <>
-              <Row
-                lg={3}
-                md={2}
-                xs={1}
-                me="auto"
-                className="d-flex justify-content-center"
-              ></Row>
-
               <Col className="d-grid gap-1 mt-3" lg={1} md={2} xs={4}>
-                <Form.Select
-                  aria-label="Default"
-                  onChange={(e) => {
-                    setSort(e.target.value);
-                  }}
-                >
-                  <option>sort</option>
-
-                  <option value="asc">Asc</option>
-                  <option value="desc">Desc</option>
-                </Form.Select>
-
-                <Button
-                  variant="outline-info"
-                  onClick={() => dispatch(openFilter())}
-                >
+                <Button variant="light" onClick={() => dispatch(openFilter())}>
                   filter <i className="fas fa-filter"></i>
                 </Button>
               </Col>

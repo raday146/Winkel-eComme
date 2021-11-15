@@ -28,7 +28,13 @@ const Header = () => {
 
   return (
     <header>
-      <Navbar bg="primary" variant="dark" expand="lg" collapseOnSelect>
+      <Navbar
+        bg="primary"
+        variant="dark"
+        expand="lg"
+        className="fixed-top mt-0"
+        collapseOnSelect
+      >
         <Container>
           <LinkContainer to="/">
             <Navbar.Brand>Winkel</Navbar.Brand>
@@ -56,7 +62,7 @@ const Header = () => {
                 <NavDropdown title={userInfo.user.name} id="username">
                   <LinkContainer to="/profile">
                     <NavDropdown.Item>
-                      <i class="fas fa-user"></i> Profile
+                      <i className="fas fa-user"></i> Profile
                     </NavDropdown.Item>
                   </LinkContainer>
 
@@ -64,32 +70,32 @@ const Header = () => {
                     <>
                       <LinkContainer to="/admin/userslist">
                         <NavDropdown.Item>
-                          <i class="fas fa-users"></i> Users
+                          <i className="fas fa-users"></i> Users
                         </NavDropdown.Item>
                       </LinkContainer>
 
                       <LinkContainer to="/admin/orderlist">
                         <NavDropdown.Item>
-                          <i class="fas fa-box"></i> Orders
+                          <i className="fas fa-box"></i> Orders
                         </NavDropdown.Item>
                       </LinkContainer>
 
                       <LinkContainer to="/admin/productlist">
                         <NavDropdown.Item>
-                          <i class="fas fa-store"></i> Products
+                          <i className="fas fa-store"></i> Products
                         </NavDropdown.Item>
                       </LinkContainer>
                     </>
                   )}
 
                   <NavDropdown.Item onClick={logoutHandler}>
-                    <i class="fas fa-sign-out-alt"></i> LogOut
+                    <i className="fas fa-sign-out-alt"></i> LogOut
                   </NavDropdown.Item>
                 </NavDropdown>
               ) : (
                 <LinkContainer to="/login">
                   <Nav.Link>
-                    <i class="fas fa-sign-in-alt"></i> Sign In
+                    <i className="fas fa-sign-in-alt"></i> Sign In
                   </Nav.Link>
                 </LinkContainer>
               )}
