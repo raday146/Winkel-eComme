@@ -12,7 +12,7 @@ const CarouselProducts = () => {
   const topRatedProducts = useSelector((state) => state.productTopRatedReducer);
 
   const { error, loading, products } = topRatedProducts;
-
+  console.log("sssde");
   useEffect(() => {
     dispatch(listTopRatedProducts());
   }, [dispatch]);

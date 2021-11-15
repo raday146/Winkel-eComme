@@ -47,6 +47,7 @@ const HomeScreen = ({ match, history }) => {
       <Helmet>
         <title>Winkel | Home</title>
       </Helmet>
+
       {!keywordSearch && <CarouselProducts />}
 
       {loading ? (
