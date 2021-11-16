@@ -83,7 +83,7 @@ export const logOut = () => async (dispatch) => {
     });
     dispatch({ type: ORDER_DETAILS_RESET });
     dispatch({ type: ORDER_LIST_RESET });
-    dispatch({ PRODUCT_DETAILS_RESET });
+    dispatch({ type: ORDER_MYORDERS_RESET });
   } catch (err) {
     console.error(err);
   }
@@ -176,8 +176,11 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
+    const { data } =
+      user.password === undefined
+        ? await axios.put(`/api/users/profile`, user, config)
+        : await axios.patch(`/api/users/profile`, user, config);
 
-    const { data } = await axios.put(`/api/users/profile`, user, config);
     console.log(data);
     dispatch({
       type: USER_UPDATE_PROFILE_SUCCESS,

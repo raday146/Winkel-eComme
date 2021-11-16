@@ -46,10 +46,7 @@ const updateUserProfile = () =>
     try {
       if (req.body.password || req.body.passwordConfirm) {
         return next(
-          new AppError(
-            "This route is not for password update. please use /updateMyPassword.",
-            400
-          )
+          new AppError("This route is not for password update.", 400)
         );
       }
 

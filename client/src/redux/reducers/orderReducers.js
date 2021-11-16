@@ -122,7 +122,7 @@ export const myOrdersReducer = (state = { orders: [] }, action) => {
       };
     case ORDER_MYORDERS_RESET:
       return {
-        orders: [],
+        orders: undefined,
       };
 
     default:

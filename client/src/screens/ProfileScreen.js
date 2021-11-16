@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Form, Button, Row, Col, Table } from "react-bootstrap";
+import { Form, Button, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
@@ -7,7 +7,6 @@ import {
   getUserDetails,
   updateUserProfile,
 } from "../redux/actions/userActions";
-import { LinkContainer } from "react-router-bootstrap";
 import { USER_UPDATE_PROFILE_RESET, USER_DETAILS_RESET } from "../redux/types";
 import { Divider } from "@mui/material";
 import { withStyles } from "@material-ui/styles";
@@ -20,6 +19,7 @@ const ProfileScreen = (props) => {
   const [password, setPassword] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [message, setMessage] = useState("");
 
   const dispatch = useDispatch();
 
@@ -34,7 +34,6 @@ const ProfileScreen = (props) => {
   const { success } = userUpdateProfile;
 
   useEffect(() => {
-    dispatch({ type: USER_UPDATE_PROFILE_RESET });
     if (!userInfo.user) {
       history.push("/login");
     } else {
@@ -45,7 +44,11 @@ const ProfileScreen = (props) => {
         setEmail(user.email);
       }
       if (success) {
-        dispatch({ type: USER_UPDATE_PROFILE_RESET });
+        setTimeout(() => {
+          dispatch(getUserDetails("profile"));
+          dispatch({ type: USER_UPDATE_PROFILE_RESET });
+        }, 1500);
+
         //dispatch(getMyOrdersDetails());
       }
     }
@@ -53,24 +56,32 @@ const ProfileScreen = (props) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(updateUserProfile({ id: user._id, name, email, password }));
+    dispatch(updateUserProfile({ id: user._id, name, email }));
   };
 
   const submitPasswordHandler = (e) => {
     e.preventDefault();
+    if (confirmPassword !== password) {
+      setMessage("Please confirm your new password!");
+      console.log("Please confirm your new password!");
+    } else {
+      setMessage("");
+      dispatch(updateUserProfile({ id: user._id, currentPassword, password }));
+    }
   };
   return (
     <Row className={classes.root}>
       <Col md={4} className="center mt-3">
         <h1>User Profile</h1>
 
-        {error && <Message variant="danger" text={error}></Message>}
-        {success && <Message variant="success" text="Update success"></Message>}
+        {error && <Message variant="danger" text={error} />}
+        {success && <Message variant="success" text="Update success" />}
+        {message && <Message variant="danger" text={message} />}
 
         {loading && <Loader />}
 
         <Form onSubmit={submitHandler}>
-          <Form.Group controlId="name">
+          <Form.Group controlId="name" className="my-3">
             <Form.Label>Name</Form.Label>
             <Form.Control
               type="name"
@@ -80,7 +91,7 @@ const ProfileScreen = (props) => {
             ></Form.Control>
           </Form.Group>
 
-          <Form.Group controlId="email">
+          <Form.Group controlId="email" className="my-3">
             <Form.Label>Email Address</Form.Label>
             <Form.Control
               type="email"

@@ -5,6 +5,8 @@ import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { Link } from "react-router-dom";
 import { PayPalButton } from "react-paypal-button-v2/lib/index";
+import { withStyles } from "@material-ui/styles";
+import styles from "../styles/FormContainerStyle";
 import axios from "axios";
 import {
   getOrderDetails,
@@ -17,7 +19,8 @@ import {
   ORDER_DELIVER_RESET,
 } from "../redux/types";
 
-const OrderScreen = ({ match, history }) => {
+const OrderScreen = (props) => {
+  const { classes, match, history } = props;
   const orderID = match.params.id;
   const dispatch = useDispatch();
 
@@ -101,7 +104,7 @@ const OrderScreen = ({ match, history }) => {
   ) : error ? (
     <Message variant="danger" text={error} />
   ) : (
-    <>
+    <div className={classes.root}>
       <strong>Order :</strong>
       {order_details._id}
       <Row>
@@ -255,8 +258,8 @@ const OrderScreen = ({ match, history }) => {
           </ListGroup>
         </Col>
       </Row>
-    </>
+    </div>
   );
 };
 
-export default OrderScreen;
+export default withStyles(styles)(OrderScreen);

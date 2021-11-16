@@ -18,14 +18,13 @@ const MyOrders = (props) => {
 
   const myOrders = useSelector((state) => state.myOrders);
   const { loading, error, orders } = myOrders;
-
   useEffect(() => {
     if (!userInfo.user) {
       history.push("/login");
+    }
+    if (orders === undefined) {
+      dispatch(getMyOrdersDetails());
     } else {
-      if (!orders) {
-        dispatch(getMyOrdersDetails());
-      }
     }
   }, [dispatch, history, userInfo, orders]);
   return (

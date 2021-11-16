@@ -1,54 +1,68 @@
-import React, {useEffect } from "react";
+import React, { useEffect } from "react";
 import { Button, Row, Col, ListGroup, Image, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { CheckoutSteps } from "../components/CheckoutSteps";
 import Message from "../components/Message";
 import { Link } from "react-router-dom";
-import {createOrder} from '../redux/actions/orderActions'
-import {ORDER_CREATE_RESET,USER_DETAILS_RESET,ORDER_DETAILS_RESET} from '../redux/types'
+import { createOrder } from "../redux/actions/orderActions";
+import {
+  ORDER_CREATE_RESET,
+  USER_DETAILS_RESET,
+  ORDER_DETAILS_RESET,
+} from "../redux/types";
 
-const PlaceOrderScreen = ({history}) => {
-
+const PlaceOrderScreen = ({ history }) => {
   const cart = useSelector((state) => state.cart);
-  const { cartItems , shippingAddress , paymentMethod , itemsPrice , shippingPrice,taxPrice,totalPrice } = cart;
+  const {
+    cartItems,
+    shippingAddress,
+    paymentMethod,
+    itemsPrice,
+    shippingPrice,
+    taxPrice,
+    totalPrice,
+  } = cart;
 
   const dispatch = useDispatch();
 
   //calculate prices
 
- cart.itemsPrice = cartItems.reduce((acc,item)=>acc+item.price*item.qty,0)
- cart.itemsPrice = Number(cart.itemsPrice.toFixed(2))
- cart.shippingPrice = cart.itemsPrice > 100 ? 0 : 20
- cart.taxPrice = Number((0.17*cart.itemsPrice).toFixed(2))
- cart.totalPrice = Number((cart.itemsPrice+cart.shippingPrice+cart.taxPrice).toFixed(2))
+  cart.itemsPrice = cartItems.reduce(
+    (acc, item) => acc + item.price * item.qty,
+    0
+  );
+  cart.itemsPrice = Number(cart.itemsPrice.toFixed(2));
+  cart.shippingPrice = cart.itemsPrice > 100 ? 0 : 20;
+  cart.taxPrice = Number((0.17 * cart.itemsPrice).toFixed(2));
+  cart.totalPrice = Number(
+    (cart.itemsPrice + cart.shippingPrice + cart.taxPrice).toFixed(2)
+  );
 
-    const orderCreate = useSelector(state=>state.orderCreate)
-    const {order,success,error} = orderCreate
-   
-    useEffect(()=>{
-        if(success) {
-       
-            history.push(`/order/${order.order._id}`)
-            dispatch({ type: USER_DETAILS_RESET })
-            dispatch({ type: ORDER_CREATE_RESET })
+  const orderCreate = useSelector((state) => state.orderCreate);
+  const { order, success, error } = orderCreate;
 
-
-        }
-        // eslint-disable-next-line
-    },[history,success])
-
-    const placeOrderHandler=()=>{
-       dispatch(createOrder({
-           orderItems: cartItems,
-           shippingAddress: shippingAddress,
-           paymentMethod: paymentMethod,
-           itemsPrice : itemsPrice,
-           shippingPrice : shippingPrice,
-          taxPrice : taxPrice,
-          totalPrice:totalPrice
-
-       }))
+  useEffect(() => {
+    if (success) {
+      history.push(`/order/${order._id}`);
+      dispatch({ type: USER_DETAILS_RESET });
+      dispatch({ type: ORDER_CREATE_RESET });
     }
+    // eslint-disable-next-line
+  }, [history, success]);
+
+  const placeOrderHandler = () => {
+    dispatch(
+      createOrder({
+        orderItems: cartItems,
+        shippingAddress: shippingAddress,
+        paymentMethod: paymentMethod,
+        itemsPrice: itemsPrice,
+        shippingPrice: shippingPrice,
+        taxPrice: taxPrice,
+        totalPrice: totalPrice,
+      })
+    );
+  };
 
   return (
     <>
@@ -133,7 +147,7 @@ const PlaceOrderScreen = ({history}) => {
             </ListGroup.Item>
 
             <ListGroup.Item>
-                {error && <Message variant='danger' text={error}/>}
+              {error && <Message variant="danger" text={error} />}
             </ListGroup.Item>
 
             <ListGroup.Item>

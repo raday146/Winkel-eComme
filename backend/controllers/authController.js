@@ -7,8 +7,6 @@ import asyncHandler from "express-async-handler";
 import AppError from "../utils/AppError.js";
 
 const signToken = (id) => {
-  console.log("id:", id);
-
   return jwt.sign({ id: id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
@@ -84,7 +82,6 @@ const login = () =>
         const er = new AppError("Incorrect email or password", 401);
         res.status(er.statusCode).json({ message: er.message });
       }
-      console.log(user);
       createSendToken(user, 200, res);
     } catch (error) {
       res.status(401).json({
@@ -186,7 +183,6 @@ const updatePassword = () =>
       currentUser.password = req.body.password;
       await currentUser.save();
       // currentUser.findByUpdate will not work as intended!
-
       //4) log user in, send jwt
       createSendToken(currentUser, 200, res);
     } catch (error) {
