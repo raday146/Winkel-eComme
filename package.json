@@ -8,7 +8,7 @@
     "node": "16.x"
   },
   "scripts": {
-    "start": "nodemon backend/server",
+    "start": "node backend/server",
     "server": "set NODE_ENV=development&& nodemon backend/server",
     "client": "npm start --prefix client",
     "start:prod": "set NODE_ENV=production&& nodemon backend/server",
@@ -16,7 +16,7 @@
     "data:import": "node backend/seeder --import",
     "data:destroy": "node backend/seeder --delete",
      "build": "cd client && npm run build", 
-    "heroku-postbuild": "npm run install-client && npm run buil"
+    "heroku-postbuild": "npm run install-client && npm run build"
 
   },
   "author": "ShlomoR",
