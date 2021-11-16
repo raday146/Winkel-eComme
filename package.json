@@ -8,7 +8,7 @@
     "node": "16.x"
   },
   "scripts": {
-    "start": "node backend/server",
+    "start": "nodemon backend/server",
     "server": "set NODE_ENV=development&& nodemon backend/server",
     "client": "npm start --prefix client",
     "start:prod": "set NODE_ENV=production&& nodemon backend/server",
