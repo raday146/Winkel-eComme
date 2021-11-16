@@ -7,7 +7,8 @@ import Loader from "../components/Loader";
 import { register, login } from "../redux/actions/userActions";
 import FormContainer from "../components/FormContainer";
 
-const RegisterScreen = ({ location, history }) => {
+const RegisterScreen = (props) => {
+  const { location, history } = props;
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,7 +22,7 @@ const RegisterScreen = ({ location, history }) => {
 
   const redirect = location.search ? location.search.split("=")[1] : "/";
   useEffect(() => {
-    if (userInfo.user) {
+    if (userInfo && userInfo.user) {
       history.push(redirect);
     }
   }, [history, userInfo, redirect]);
@@ -60,7 +61,7 @@ const RegisterScreen = ({ location, history }) => {
           ></Form.Control>
         </Form.Group>
 
-        <Form.Group controlId="email">
+        <Form.Group controlId="email" className="my-3">
           <Form.Label>Email Address</Form.Label>
           <Form.Control
             type="email"
@@ -70,7 +71,7 @@ const RegisterScreen = ({ location, history }) => {
           ></Form.Control>
         </Form.Group>
 
-        <Form.Group controlId="password" className="mt-3">
+        <Form.Group controlId="password" className="my-3">
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"

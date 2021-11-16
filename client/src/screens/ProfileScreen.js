@@ -7,19 +7,19 @@ import {
   getUserDetails,
   updateUserProfile,
 } from "../redux/actions/userActions";
-
-import {
-  getMyOrdersDetails,
-  getOrderDetails,
-} from "../redux/actions/orderActions";
-import FormContainer from "../components/FormContainer";
 import { LinkContainer } from "react-router-bootstrap";
 import { USER_UPDATE_PROFILE_RESET, USER_DETAILS_RESET } from "../redux/types";
+import { Divider } from "@mui/material";
+import { withStyles } from "@material-ui/styles";
+import styles from "../styles/profileScreenStyle";
 
-const ProfileScreen = ({ history }) => {
+const ProfileScreen = (props) => {
+  const { classes, history } = props;
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const dispatch = useDispatch();
 
@@ -33,12 +33,8 @@ const ProfileScreen = ({ history }) => {
   const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
   const { success } = userUpdateProfile;
 
-  const myOrders = useSelector((state) => state.myOrders);
-  const { loading: loadingOrders, error: errorOrders, orders } = myOrders;
-
   useEffect(() => {
     dispatch({ type: USER_UPDATE_PROFILE_RESET });
-    dispatch(getMyOrdersDetails());
     if (!userInfo.user) {
       history.push("/login");
     } else {
@@ -49,7 +45,7 @@ const ProfileScreen = ({ history }) => {
         setEmail(user.email);
       }
       if (success) {
-        //dispatch({ type: USER_UPDATE_PROFILE_RESET });
+        dispatch({ type: USER_UPDATE_PROFILE_RESET });
         //dispatch(getMyOrdersDetails());
       }
     }
@@ -60,9 +56,12 @@ const ProfileScreen = ({ history }) => {
     dispatch(updateUserProfile({ id: user._id, name, email, password }));
   };
 
+  const submitPasswordHandler = (e) => {
+    e.preventDefault();
+  };
   return (
-    <Row>
-      <Col md={3}>
+    <Row className={classes.root}>
+      <Col md={4} className="center mt-3">
         <h1>User Profile</h1>
 
         {error && <Message variant="danger" text={error}></Message>}
@@ -90,6 +89,22 @@ const ProfileScreen = ({ history }) => {
               onChange={(e) => setEmail(e.target.value)}
             ></Form.Control>
           </Form.Group>
+          <Button type="submit" variant="primary" className="my-3">
+            Update Profile
+          </Button>
+        </Form>
+        <Divider />
+
+        <Form onSubmit={submitPasswordHandler}>
+          <Form.Group controlId="CurrntPassword" className="mt-3">
+            <Form.Label>Currnet Password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Current password"
+              value={currentPassword}
+              onChange={(e) => setCurrentPassword(e.target.value)}
+            ></Form.Control>
+          </Form.Group>
 
           <Form.Group controlId="password" className="mt-3">
             <Form.Label>Password</Form.Label>
@@ -101,73 +116,22 @@ const ProfileScreen = ({ history }) => {
             ></Form.Control>
           </Form.Group>
 
+          <Form.Group controlId="ConfirmPassword" className="mt-3">
+            <Form.Label>Confirm Password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Confirm password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            ></Form.Control>
+          </Form.Group>
           <Button type="submit" variant="primary" className="mt-3">
-            Update Profile
+            Update Password
           </Button>
         </Form>
-      </Col>
-
-      <Col md={9}>
-        <h1>My Orders</h1>
-        {loadingOrders ? (
-          <Loader />
-        ) : errorOrders ? (
-          <Message variant="danger" text={errorOrders} />
-        ) : (
-          <Table striped bordered hover responsive className="table-sm">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>DATE</th>
-                <th>TOTAL</th>
-                <th>PAID</th>
-                <th>DELIVERED</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {orders.map((order) => (
-                <tr key={order._id}>
-                  <td>{order._id}</td>
-                  <td>
-                    {String(order.createdAt).substring(0, 16).replace("T", " ")}
-                  </td>
-                  <td>{order.totalPrice}</td>
-                  <td>
-                    {order.isPaid ? (
-                      order.paidAt.substring(0, 10)
-                    ) : (
-                      <i className="fas fa-times" style={{ color: "red" }}></i>
-                    )}
-                  </td>
-                  <td>
-                    {order.isDelivered ? (
-                      order.deliveredAt.substring(0, 10)
-                    ) : (
-                      <i className="fas fa-times" style={{ color: "red" }}></i>
-                    )}
-                  </td>
-                  <td>
-                    <LinkContainer to={`/order/${order._id}`}>
-                      <Button
-                        className="btn-sm"
-                        variant="success"
-                        onClick={() => {
-                          dispatch(getOrderDetails(order._id));
-                        }}
-                      >
-                        Details
-                      </Button>
-                    </LinkContainer>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        )}
       </Col>
     </Row>
   );
 };
 
-export default ProfileScreen;
+export default withStyles(styles)(ProfileScreen);

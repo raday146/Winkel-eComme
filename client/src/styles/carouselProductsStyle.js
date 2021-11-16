@@ -1,3 +1,5 @@
+import { sizes } from "../constants/sizes";
+
 const styles = {
   carousel: {
     borderRadius: ".58%",
@@ -26,6 +28,24 @@ const styles = {
     color: "#fff",
     "& strong": {
       color: "gold",
+    },
+    [sizes.down("xl")]: {
+      fontSize: "larger",
+    },
+    [sizes.down("lg")]: {
+      fontSize: "large",
+    },
+    [sizes.down("md")]: {
+      fontSize: "large",
+    },
+    [sizes.down("sm")]: {
+      fontSize: "medium",
+    },
+    [sizes.down("xs")]: {
+      fontSize: "smaller",
+    },
+    [sizes.down("xxs")]: {
+      fontSize: "x-small",
     },
   },
 };

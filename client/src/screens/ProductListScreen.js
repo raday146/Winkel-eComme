@@ -14,8 +14,11 @@ import Loader from "../components/Loader";
 import { listProducts, deleteProduct } from "../redux/actions/productActions";
 import { LinkContainer } from "react-router-bootstrap";
 import Paginate from "../components/Paginate";
+import { withStyles } from "@material-ui/styles";
+import styles from "../styles/productListScreenStyle";
 
-const ProductListScreen = ({ history, match }) => {
+const ProductListScreen = (props) => {
+  const { classes, history, match } = props;
   const pageNumber = match.params.page || 1;
 
   const dispatch = useDispatch();
@@ -70,8 +73,7 @@ const ProductListScreen = ({ history, match }) => {
 
   return (
     <>
-      <h1>Products</h1>
-      <Row className="d-flex justify-content-center mb-4" md="auto">
+      <Row className={classes.root} md="auto">
         <Col>
           <InputGroup>
             <FormControl
@@ -160,4 +162,4 @@ const ProductListScreen = ({ history, match }) => {
   );
 };
 
-export default ProductListScreen;
+export default withStyles(styles)(ProductListScreen);

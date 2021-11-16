@@ -109,9 +109,7 @@ const getUserById = () =>
       const user = await User.findById(req.params.id).select("-password"); //.populate("user", "name");
 
       if (user) {
-        res.status(200).json({
-          user,
-        });
+        res.status(200).json(user);
       }
     } catch (error) {
       res.status(404).json({

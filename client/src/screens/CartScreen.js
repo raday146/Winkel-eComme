@@ -11,24 +11,21 @@ import {
   Button,
   Card,
 } from "react-bootstrap";
-import { addToCart ,removeFromCart } from "../redux/actions/cartActions";
-
-import EmptyCartSvg from '../assets/EmptyCartSvg'
-
-
+import { addToCart, removeFromCart } from "../redux/actions/cartActions";
+import EmptyCartSvg from "../assets/EmptyCartSvg";
+import { withStyles } from "@material-ui/styles";
+import styles from "../styles/cartScreenStyle";
 import { CART_RESET } from "../redux/types";
 
-const CartScreen = ({ match, location, history }) => {
-
+const CartScreen = (props) => {
+  const { classes, match, location, history } = props;
   const productId = match.params.id;
-
   const qty = location.search ? Number(location.search.split("=")[1]) : 1;
 
   const dispatch = useDispatch();
 
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
-  
 
   useEffect(() => {
     if (productId) {
@@ -37,28 +34,37 @@ const CartScreen = ({ match, location, history }) => {
   }, [dispatch, productId, qty]);
 
   const removeFromCartHandler = (id) => {
-       dispatch(removeFromCart(id))
+    dispatch(removeFromCart(id));
   };
 
   const checkoutHandler = () => {
-      history.push('/login?redirect=shipping')
+    history.push("/login?redirect=shipping");
   };
 
   return (
-
-    <Row style={{display:'flex',justifyContent:'center'}}>
+    <Row className={classes.root}>
       <Col md={8}>
         <h1>Shopping Cart</h1>
-     
-        {cartItems.length >0 && <Button variant="outline-danger" onClick={()=>{dispatch({type:CART_RESET}) && localStorage.setItem('cartItems',JSON.stringify([]))}}>Reset cart</Button>}
+
+        {cartItems.length > 0 && (
+          <Button
+            variant="outline-danger"
+            onClick={() => {
+              dispatch({ type: CART_RESET }) &&
+                localStorage.setItem("cartItems", JSON.stringify([]));
+            }}
+          >
+            Reset cart
+          </Button>
+        )}
 
         {cartItems.length === 0 ? (
-          <div style={{width:'100%',display:'grid',placeContent:'center'}} >
-            <Message text={"Your cart is empty"} variant="info"/>
-              <EmptyCartSvg width='300' height='300'/>
+          <div className={classes.imgDiv}>
+            <Message text={"Your cart is empty"} variant="info" />
+            <EmptyCartSvg width="300" height="300" />
           </div>
         ) : (
-          <ListGroup variant="flush" style={{marginTop:10}}>
+          <ListGroup variant="flush" className={classes.listGroup}>
             {cartItems.map((item) => (
               <ListGroup.Item key={item.product}>
                 <Row>
@@ -101,26 +107,36 @@ const CartScreen = ({ match, location, history }) => {
           </ListGroup>
         )}
       </Col>
-      {cartItems.length > 0 &&
+      {cartItems.length > 0 && (
         <Col md={4}>
-        <Card>
-          <ListGroup variant="flush">
-            <ListGroup.Item>
-              <h2>
-                SUBTOTAL ({cartItems.reduce((acc, item) => acc + item.qty, 0)})
-                ITEMS
-              </h2>
-              ${cartItems.reduce((acc, item) => acc + (item.qty*item.price),0).toFixed(2)}
-            </ListGroup.Item>
-            <ListGroup.Item>
-                <Button type='button' className='btn-block' disabled={cartItems.length===0} onClick={checkoutHandler}>Proceed to checkout</Button>
-            </ListGroup.Item>
-          </ListGroup>
-        </Card>
-      </Col>
-      }
+          <Card>
+            <ListGroup variant="flush">
+              <ListGroup.Item>
+                <h2>
+                  SUBTOTAL ({cartItems.reduce((acc, item) => acc + item.qty, 0)}
+                  ) ITEMS
+                </h2>
+                $
+                {cartItems
+                  .reduce((acc, item) => acc + item.qty * item.price, 0)
+                  .toFixed(2)}
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <Button
+                  type="button"
+                  className="btn-block"
+                  disabled={cartItems.length === 0}
+                  onClick={checkoutHandler}
+                >
+                  Proceed to checkout
+                </Button>
+              </ListGroup.Item>
+            </ListGroup>
+          </Card>
+        </Col>
+      )}
     </Row>
   );
 };
 
-export default CartScreen;
+export default withStyles(styles)(CartScreen);

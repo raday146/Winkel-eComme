@@ -62,34 +62,46 @@ const Header = () => {
                 <NavDropdown title={userInfo.user.name} id="username">
                   <LinkContainer to="/profile">
                     <NavDropdown.Item>
-                      <i className="fas fa-user"></i> Profile
+                      <i className="fas fa-user btn-outline-secondary"></i>{" "}
+                      Profile
+                    </NavDropdown.Item>
+                  </LinkContainer>
+
+                  <LinkContainer to="/myorders">
+                    <NavDropdown.Item>
+                      <i className="fas fa-archive btn-outline-secondary"></i>{" "}
+                      MyOrders
                     </NavDropdown.Item>
                   </LinkContainer>
 
                   {userInfo.user && userInfo.user.isAdmin && (
                     <>
-                      <LinkContainer to="/admin/userslist">
+                      <LinkContainer to="/admin/userlist">
                         <NavDropdown.Item>
-                          <i className="fas fa-users"></i> Users
+                          <i className="fas fa-users btn-outline-secondary"></i>{" "}
+                          Users
                         </NavDropdown.Item>
                       </LinkContainer>
 
                       <LinkContainer to="/admin/orderlist">
                         <NavDropdown.Item>
-                          <i className="fas fa-box"></i> Orders
+                          <i className="fas fa-box btn-outline-secondary"></i>{" "}
+                          Orders
                         </NavDropdown.Item>
                       </LinkContainer>
 
                       <LinkContainer to="/admin/productlist">
                         <NavDropdown.Item>
-                          <i className="fas fa-store"></i> Products
+                          <i className="fas fa-store btn-outline-secondary"></i>{" "}
+                          Products
                         </NavDropdown.Item>
                       </LinkContainer>
                     </>
                   )}
 
                   <NavDropdown.Item onClick={logoutHandler}>
-                    <i className="fas fa-sign-out-alt"></i> LogOut
+                    <i className="fas fa-sign-out-alt btn-outline-secondary "></i>{" "}
+                    LogOut
                   </NavDropdown.Item>
                 </NavDropdown>
               ) : (

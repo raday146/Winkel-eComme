@@ -18,9 +18,12 @@ import ProductListScreen from "./screens/ProductListScreen";
 import CreateProductScreen from "./screens/CreateProductScreen";
 import ProductEditScreen from "./screens/ProductEditScreen";
 import OrdersListScreen from "./screens/OrdersListScreen";
+import myOrders from "./screens/MyOrders";
+
 import { Container } from "react-bootstrap";
 import { Provider } from "react-redux";
 import store from "./redux/store";
+import MyOrders from "./screens/MyOrders";
 
 function App() {
   return (
@@ -35,6 +38,7 @@ function App() {
             <Route path="/login" component={LoginScreen} exact />
             <Route path="/register" component={RegisterScreen} exact />
             <Route path="/profile" component={ProfileScreen} exact />
+            <Route path="/myorders" component={MyOrders} exact />
             <Route path="/shipping" component={ShippingScreen} exact />
             <Route path="/payment" component={PaymentScreen} exact />
             <Route path="/placeorder" component={PlaceOrderScreen} exact />

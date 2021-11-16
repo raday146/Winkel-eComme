@@ -10,9 +10,12 @@ import { Helmet } from "react-helmet";
 import OffCanvas from "../components/OffCanvas";
 import { openFilter } from "../redux/actions/filterActions";
 import CarouselProducts from "../components/CarouselProducts";
+import { withStyles } from "@material-ui/styles";
+import styles from "../styles/homeScreenStyle";
 // import { sortProductsAsc, sortProductsDesc } from "../redux/actions/productActions";
 
-const HomeScreen = ({ match, history }) => {
+const HomeScreen = (props) => {
+  const { classes, match } = props;
   const keywordSearch = match.params.keyword;
   const pageNumber = match.params.page || 1;
 
@@ -58,7 +61,12 @@ const HomeScreen = ({ match, history }) => {
         <>
           {!keywordSearch && (
             <>
-              <Col className="d-grid gap-1 mt-3" lg={1} md={2} xs={4}>
+              <Col
+                className={`${classes.colFilterBtn} mt-3`}
+                lg={1}
+                md={2}
+                xs={4}
+              >
                 <Button variant="light" onClick={() => dispatch(openFilter())}>
                   filter <i className="fas fa-filter"></i>
                 </Button>
@@ -76,7 +84,7 @@ const HomeScreen = ({ match, history }) => {
                 </Col>
               ))
             ) : (
-              <Row className="d-grid justify-content-center" md="auto">
+              <Row className={classes.jcCenter} md="auto">
                 <Message
                   variant="danger"
                   text={`no results for ${keywordSearch}`}
@@ -84,7 +92,7 @@ const HomeScreen = ({ match, history }) => {
               </Row>
             )}
           </Row>
-          <Row className="d-grid justify-content-center" md="auto">
+          <Row className={classes.jcCenter} md="auto">
             <Paginate
               pages={pages}
               page={page}
@@ -97,4 +105,4 @@ const HomeScreen = ({ match, history }) => {
   );
 };
 
-export default HomeScreen;
+export default withStyles(styles)(HomeScreen);

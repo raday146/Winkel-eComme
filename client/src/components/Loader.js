@@ -1,22 +1,14 @@
 import React from "react";
 import { Spinner } from "react-bootstrap";
 
-const Loader = () => {
+import { withStyles } from "@material-ui/styles";
+import styles from "../styles/LoaderStyle";
+const Loader = ({ classes }) => {
   return (
-    <Spinner
-      animation="border"
-      role="status"
-      style={{
-        width: "100px",
-        height: "100px",
-        margin: "auto",
-        display: "block",
-        color: "#f46e2d",
-      }}
-    >
+    <Spinner animation="border" role="status" className={classes.root}>
       <span className="sr-only">Loading...</span>
     </Spinner>
   );
 };
 
-export default Loader;
+export default withStyles(styles)(Loader);
