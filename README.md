@@ -7,7 +7,7 @@
  ## React.js (Frontend) 👈
    The declarative JavaScript framework for creating dynamic client-side applications in HTML. 
    
- ###properties  🤓
+ ### properties  🤓
       * Functional Components.
       * Redux (state management).
       * React-router-dom (contains DOM bindings and gives you access to React Router by default).
