@@ -18,8 +18,6 @@ import ProductListScreen from "./screens/ProductListScreen";
 import CreateProductScreen from "./screens/CreateProductScreen";
 import ProductEditScreen from "./screens/ProductEditScreen";
 import OrdersListScreen from "./screens/OrdersListScreen";
-import myOrders from "./screens/MyOrders";
-
 import { Container } from "react-bootstrap";
 import { Provider } from "react-redux";
 import store from "./redux/store";

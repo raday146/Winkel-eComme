@@ -15,7 +15,7 @@ const getAll = () =>
   asyncHandler(async (req, res) => {
     // to allow for nested GET reviews on tour(hack)
     let filter = {};
-    const pageSize = 10;
+    const pageSize = 2;
     const page = Number(req.query.page) || 1;
 
     if (req.params.id) {

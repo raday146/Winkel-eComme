@@ -33,6 +33,7 @@ const HomeScreen = (props) => {
   const filterReducer = useSelector((state) => state.filterReducer);
   const { show } = filterReducer;
 
+  // * sort  not used yet
   const [sort, setSort] = useState(sortType);
 
   useEffect(() => {
@@ -40,11 +41,10 @@ const HomeScreen = (props) => {
   }, [dispatch, keywordSearch, pageNumber, sort]);
 
   //const pageSize = 6;
-
+  console.log(page, pages);
   //const indexOfLastProduct = pageNumber * pageSize;
   //const indexOfFirstProduct = indexOfLastProduct - pageSize;
   // let products = allProducts.slice(indexOfFirstProduct, indexOfLastProduct);
-
   return (
     <>
       <Helmet>
