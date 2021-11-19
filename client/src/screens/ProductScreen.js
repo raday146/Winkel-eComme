@@ -27,10 +27,9 @@ const ProductScreen = ({ history, match }) => {
   const dispatch = useDispatch();
 
   const userLogin = useSelector((state) => state.userLogin);
-
   const { userInfo } = userLogin;
-  const productDetails = useSelector((state) => state.productDetails);
 
+  const productDetails = useSelector((state) => state.productDetails);
   const { loading, error, product } = productDetails;
 
   const productCreateReview = useSelector(
