@@ -29,7 +29,6 @@ const ProductScreen = ({ history, match }) => {
   const userLogin = useSelector((state) => state.userLogin);
 
   const { userInfo } = userLogin;
-  const user = userInfo;
   const productDetails = useSelector((state) => state.productDetails);
 
   const { loading, error, product } = productDetails;
@@ -176,7 +175,7 @@ const ProductScreen = ({ history, match }) => {
                   {errorCreateReview && (
                     <Message variant="danger" text={errorCreateReview} />
                   )}
-                  {userInfo && user ? (
+                  {userInfo && userInfo.user ? (
                     <Form onSubmit={createReviewHandler}>
                       <Form.Label>Rating</Form.Label>
                       <Form.Group controlId="rating">
