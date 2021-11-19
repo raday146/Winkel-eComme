@@ -32,7 +32,7 @@ function App() {
           <Container>
             <Route exact path="/" component={HomeScreen} />
             <Route path="/product/:id" component={ProductScreen} exact />
-            <Route path="/cart/:id?" component={CartScreen} exact />
+            <Route exact path="/cart/:id?" component={CartScreen} />
             <Route path="/login" component={LoginScreen} exact />
             <Route path="/register" component={RegisterScreen} exact />
             <Route path="/profile" component={ProfileScreen} exact />
