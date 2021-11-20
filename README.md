@@ -2,7 +2,7 @@
 
 
 # Introduction  🙂
- Winkel is an e-Commerce shope, a *MERN Stack* app, constructed by  a 3-tier architecture (frontend, backend, database), applied by various technologies as React.js (client-side) in the front of the app, and node.js, express 
+ Winkel is an e-Commerce shop, a *MERN Stack* app, constructed by  a 3-tier architecture (frontend, backend, database), applied by various technologies as React.js (client-side) in the front of the app, and node.js, express 
  by using MongoDB database from the backend.
  
  
