@@ -27,7 +27,7 @@ export const listProducts =
   (keyword = "", pageNumber = "", sort) =>
   async (dispatch, getState) => {
     try {
-      if (sort === "") {
+      if (!!!sort) {
         dispatch({ type: PRODUCT_LIST_REQUEST });
         const { data } = await axios.get(
           `/api/products?keyword=${keyword}&page=${pageNumber}`

@@ -16,7 +16,6 @@
     "data:import": "node backend/seeder --import",
     "data:destroy": "node backend/seeder --delete",
     "heroku-postbuild": "npm run install-client && npm run build"
-
   },
   "author": "ShlomoR",
   "license": "ISC",

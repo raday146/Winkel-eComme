@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback, memo } from "react";
 import {
   Table,
   Button,
@@ -15,11 +15,14 @@ import { listProducts, deleteProduct } from "../redux/actions/productActions";
 import { LinkContainer } from "react-router-bootstrap";
 import Paginate from "../components/Paginate";
 import { withStyles } from "@material-ui/styles";
+import { useParams } from "react-router-dom";
 import styles from "../styles/productListScreenStyle";
 
 const ProductListScreen = (props) => {
   const { classes, history, match } = props;
-  const pageNumber = match.params.page || 1;
+  const param = useParams();
+  console.log("list", param);
+  const pageNumber = match.params?.page || 1;
 
   const dispatch = useDispatch();
 
@@ -46,18 +49,22 @@ const ProductListScreen = (props) => {
   useEffect(() => {
     if (userInfo.user && userInfo.user.isAdmin) {
       dispatch(listProducts("", pageNumber));
+      console.log("s");
     } else {
       history.push("/login");
     }
-  }, [dispatch, history, userInfo, successDelete, pageNumber]);
+    if (successDelete) {
+      dispatch(listProducts("", pageNumber));
+    }
+  }, [dispatch, history, pageNumber, successDelete, userInfo.user]);
 
-  useEffect(() => {
-    setProducts(productList);
-  }, [productList]);
-
-  const deleteProductHandler = (id) => {
+  const deleteProductHandler = useCallback((id) => {
     dispatch(deleteProduct(id));
-  };
+  }, []);
+
+  if (productList.length !== products.length) {
+    setProducts(productList);
+  }
 
   const filterProductsHandler = (name) => {
     if (name !== "") {
@@ -83,7 +90,7 @@ const ProductListScreen = (props) => {
           </InputGroup>
         </Col>
         <Col className="text-right">
-          <LinkContainer to={`/admin/product/newproduct`}>
+          <LinkContainer to={`/admin/products/newproduct`}>
             <Button>
               <i className="fas fa-plus"></i> Create Product
             </Button>
@@ -133,7 +140,7 @@ const ProductListScreen = (props) => {
                     <td>
                       <Col style={{ display: "flex" }}>
                         <LinkContainer
-                          to={`/admin/product/${product._id}/edit`}
+                          to={`/admin/productlist/${product._id}/edit`}
                         >
                           <Button className="btn-sm" variant="light">
                             <i className="fas fa-edit"></i>
@@ -153,7 +160,7 @@ const ProductListScreen = (props) => {
                 ))}
             </tbody>
           </Table>
-          <Row className="d-grid justify-content-center" md="auto">
+          <Row className={classes.jcCenter} md="auto">
             <Paginate pages={pages} page={page} isAdmin={true} />
           </Row>
         </>
@@ -162,4 +169,4 @@ const ProductListScreen = (props) => {
   );
 };
 
-export default withStyles(styles)(ProductListScreen);
+export default withStyles(styles)(memo(ProductListScreen));

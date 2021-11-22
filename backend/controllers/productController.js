@@ -3,6 +3,7 @@ import Product from "../models/prodcutModel.js";
 import { filterObj } from "./userController.js";
 import ApiFeatures from "../utils/ApiFeaturs.js";
 import AppError from "../utils/AppError.js";
+import { raw } from "express";
 
 const aliasTopProducts = (req, res, next) => {
   req.query.limit = "3";
@@ -85,15 +86,15 @@ const createProduct = () =>
   asyncHandler(async (req, res) => {
     try {
       const product = await Product.create({
-        name: "Sample name",
-        price: 0,
+        name: req.body.name,
+        price: req.body.price,
         user: req.user._id,
-        image: "/images/sample.jpg",
-        brand: "Sample brand",
-        category: "Sample category",
-        countInStock: 0,
+        image: req.body.image,
+        brand: req.body.brand,
+        category: req.body.category,
+        countInStock: req.body.countInStock,
         numReviews: 0,
-        description: "Sample description",
+        description: req.body.description,
       }); //.populate("user", "name");
 
       res.status(200).json(product);

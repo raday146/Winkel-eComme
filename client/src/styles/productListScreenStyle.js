@@ -5,5 +5,10 @@ const styles = {
     justifyContent: "center !important",
     display: "flex !important",
   },
+  jcCenter: {
+    display: "grid !important",
+    justifyContent: "center !important",
+    marginTop: "150px",
+  },
 };
 export default styles;

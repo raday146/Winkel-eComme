@@ -43,7 +43,7 @@ function App() {
             <Route path="/order/:id" component={OrderScreen} />
             <Route path="/admin/userlist" component={UsersListScreen} />
             <Route
-              path="/admin/user/:id/edit"
+              path="/admin/userlist/:id/edit"
               component={UserEditScreen}
               exact
             />
@@ -53,17 +53,17 @@ function App() {
               exact
             />
             <Route
-              path="/admin/products/:page"
+              path="/admin/productlist/:page"
               component={ProductListScreen}
               exact
             />
             <Route
-              path="/admin/product/newproduct"
-              component={CreateProductScreen}
               exact
+              path="/admin/products/newproduct"
+              component={CreateProductScreen}
             />
             <Route
-              path="/admin/product/:id/edit"
+              path="/admin/productlist/:id/edit"
               component={ProductEditScreen}
               exact
             />
