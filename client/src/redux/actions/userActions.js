@@ -81,6 +81,7 @@ export const logOut = () => async (dispatch) => {
     dispatch({
       type: USER_LIST_RESET,
     });
+    await axios.post("/api/users/logout");
     dispatch({ type: ORDER_DETAILS_RESET });
     dispatch({ type: ORDER_LIST_RESET });
     dispatch({ type: ORDER_MYORDERS_RESET });
