@@ -35,4 +35,12 @@
   ## MongoDB Database 👈
    * mongoDB (stores the data of the app)
     
+    
+    
+    
+  ## Testing to see the project? 
+     enter the email and password below.
+     $ E-mail address: admin1@gmail.com
+     $ Password: 123
+     
   
