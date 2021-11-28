@@ -39,8 +39,9 @@
     
     
   ## Testing to see the project? 
-     enter the email and password below.
-     $ E-mail address: admin1@gmail.com
-     $ Password: 123
+   enter the email and password below.
+     
+     $ admin1@gmail.com
+     $ 123
      
   
